@@ -1,284 +1,89 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>حاسبة العمر الدقيق</title>
-
-    <!-- ميزات دعم التشغيل كتطبيق هاتف -->
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="theme-color" content="#6366f1">
-    
-    <!-- كود أيقونة التطبيق الخاص بصورتك يا أبوالقاسم -->
-    <link rel="icon" type="image/jpeg" href="IMG-20260320-WA0143 (2).jpg">
-    <link rel="apple-touch-icon" href="IMG-20260320-WA0143 (2).jpg">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>عمر أبو القاسم</title>
     <style>
-        :root {
-            --primary-color: #6366f1;
-            --secondary-color: #a855f7;
-            --bg-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
-            --glass-bg: rgba(255, 255, 255, 0.85);
-            --card-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-        }
-
-        * {
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-        }
-
+        /* خلفية ملونة متحركة بأسلوب 3D عصري */
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            background: var(--bg-gradient);
-            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            margin: 0;
-            color: #333;
-            padding: 15px;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(-45deg, #1e3c72, #2a5298, #6dd5fa, #2980b9);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
         }
-
-        .container {
-            background: var(--glass-bg);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border-radius: 24px;
-            padding: 30px 24px;
-            width: 100%;
-            max-width: 420px;
-            box-shadow: var(--card-shadow);
+        @keyframes gradientBG {
+            0% {background-position: 0% 50%;}
+            50% {background-position: 100% 50%;}
+            100% {background-position: 0% 50%;}
+        }
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 30px;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
             text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.4);
+            border: 2px solid rgba(255,255,255,0.3);
         }
-
-        h1 {
-            color: #1e1b4b;
-            font-size: 1.8rem;
-            margin-bottom: 25px;
-            font-weight: 800;
+        h1 { color: #1e3c72; margin-bottom: 20px; font-size: 28px; }
+        .input-group { display: flex; gap: 10px; margin-bottom: 20px; }
+        input { width: 33%; padding: 12px; border: 2px solid #2a5298; border-radius: 15px; text-align: center; font-size: 16px; outline: none; }
+        button { 
+            background: linear-gradient(to right, #1e3c72, #2a5298); 
+            color: white; border: none; padding: 15px; width: 100%; 
+            border-radius: 15px; font-weight: bold; font-size: 18px; 
+            cursor: pointer; transition: 0.3s;
         }
-
-        .input-group {
-            margin-bottom: 20px;
-            text-align: right;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 8px;
-            color: #4f46e5;
-            font-weight: 600;
-            font-size: 0.95rem;
-        }
-
-        input[type="date"] {
-            width: 100%;
-            padding: 14px;
-            border: 2px solid #e2e8f0;
-            border-radius: 14px;
-            font-size: 1.1rem;
-            outline: none;
-            transition: all 0.3s ease;
-            text-align: center;
-            background: white;
-        }
-
-        input[type="date"]:focus {
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.15);
-        }
-
-        button {
-            width: 100%;
-            background: var(--bg-gradient);
-            color: white;
-            border: none;
-            padding: 15px;
-            border-radius: 14px;
-            font-size: 1.1rem;
-            font-weight: 700;
-            cursor: pointer;
-            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
-            transition: all 0.2s ease;
-        }
-
-        button:active {
-            transform: scale(0.98);
-        }
-
-        .results-box {
-            margin-top: 25px;
-            display: none;
-        }
-
-        .main-result {
-            background: rgba(99, 102, 241, 0.08);
-            padding: 15px;
-            border-radius: 16px;
-            margin-bottom: 15px;
-            border: 1px solid rgba(99, 102, 241, 0.15);
-        }
-
-        .main-result .number {
-            font-size: 2.5rem;
-            font-weight: 800;
-            color: #4f46e5;
-            display: block;
-            line-height: 1.2;
-        }
-
-        .main-result .label {
-            font-size: 1rem;
-            color: #6b7280;
-            font-weight: 600;
-        }
-
-        .grid-results {
-            display: grid;
-            grid-template-columns: repeat(2, 10fr);
-            gap: 12px;
-        }
-
-        .grid-item {
-            background: #f8fafc;
-            padding: 12px;
-            border-radius: 12px;
-            border: 1px solid #e2e8f0;
-        }
-
-        .grid-item .num {
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: #1e293b;
-            display: block;
-        }
-
-        .grid-item .lbl {
-            font-size: 0.85rem;
-            color: #64748b;
-        }
+        button:hover { transform: scale(1.05); }
+        .result-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 25px; }
+        .box { background: #f8f9fa; padding: 15px; border-radius: 20px; border: 1px solid #ddd; }
+        .box b { font-size: 1.5em; color: #1e3c72; display: block; }
+        .box span { font-size: 0.9em; color: #555; }
     </style>
 </head>
 <body>
-
-<div class="container">
-    <h1>حاسبة العمر الدقيق</h1>
-    
-    <div class="input-group">
-        <label for="birthdate">اختر تاريخ ميلادك:</label>
-        <input type="date" id="birthdate">
-    </div>
-    
-    <button onclick="calculateAge()">احسب عمري الآن</button>
-    
-    <div class="results-box" id="resultsBox">
-        <div class="main-result">
-            <span class="number" id="resYears">0</span>
-            <span class="label">سنة كاملة</span>
+    <div class="card">
+        <h1>مرحباً أبو القاسم</h1>
+        <div class="input-group">
+            <input type="number" id="day" placeholder="اليوم">
+            <input type="number" id="month" placeholder="الشهر">
+            <input type="number" id="year" placeholder="السنة">
         </div>
-        
-        <div class="grid-results">
-            <div class="grid-item">
-                <span class="num" id="resMonths">0</span>
-                <span class="lbl">أشهر</span>
-            </div>
-            <div class="grid-item">
-                <span class="num" id="resWeeks">0</span>
-                <span class="lbl">أسابيع</span>
-            </div>
-            <div class="grid-item">
-                <span class="num" id="resDays">0</span>
-                <span class="lbl">أيام</span>
-            </div>
-            <div class="grid-item">
-                <span class="num" id="resHours">0</span>
-                <span class="lbl">ساعات</span>
-            </div>
-        </div>
+        <button onclick="calculate()">احسب عمري بدقة</button>
+        <div id="result" class="result-grid"></div>
     </div>
-</div>
-
-<script>
-    // تحديد تاريخ اليوم كحد أقصى في الإدخال
-    document.getElementById('birthdate').max = new Date().toISOString().split("T")[0];
-
-    function calculateAge() {
-        const birthDateInput = document.getElementById('birthdate').value;
-        if (!birthDateInput) {
-            alert('الرجاء اختيار تاريخ ميلادك أولاً!');
-            return;
-        }
-
-        const birthDate = new Date(birthDateInput);
-        const nowDate = new Date();
-
-        if (birthDate > nowDate) {
-            alert('تاريخ الميلاد لا يمكن أن يكون في المستقبل!');
-            return;
-        }
-
-        const diffTime = nowDate - birthDate;
-        
-        // الحسابات الدقيقة
-        const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-        const diffWeeks = Math.floor(diffDays / 7);
-        const diffHours = Math.floor(diffTime / (1000 * 60 * 60));
-        
-        // حساب السنين والأشهر بدقة تقويمية
-        let years = nowDate.getFullYear() - birthDate.getFullYear();
-        let months = nowDate.getMonth() - birthDate.getMonth();
-        
-        if (months < 0 || (months === 0 && nowDate.getDate() < birthDate.getDate())) {
-            years--;
-            months = 12 + months;
-        }
-        if (nowDate.getDate() < birthDate.getDate()) {
-            months--;
-        }
-        if (months < 0) {
-            months = 11;
-        }
-
-        // إجمالي الأشهر التقريبية الكلية
-        const totalMonths = (years * 12) + months;
-
-        // عرض النتائج وتحريك الواجهة
-        document.getElementById('resultsBox').style.display = 'block';
-        
-        animateValue('resYears', years);
-        animateValue('resMonths', totalMonths);
-        animateValue('resWeeks', diffWeeks);
-        animateValue('resDays', diffDays);
-        animateValue('resHours', diffHours);
-    }
-
-    function animateValue(id, endValue) {
-        const obj = document.getElementById(id);
-        let startValue = 0;
-        const duration = 800;
-        const startTime = performance.now();
-        
-        function step(currentTime) {
-            const elapsedTime = currentTime - startTime;
-            const progress = Math.min(elapsedTime / duration, 1);
-            // تأثير خروج سلس (Ease out)
-            const easeProgress = 1 - Math.pow(1 - progress, 3);
+    <script>
+        function calculate() {
+            const d = parseInt(document.getElementById('day').value);
+            const m = parseInt(document.getElementById('month').value) - 1;
+            const y = parseInt(document.getElementById('year').value);
+            if(!d || !m || !y) return alert("الرجاء إدخال التاريخ كاملاً");
             
-            const currentValue = Math.floor(easeProgress * endValue);
-            obj.textContent = currentValue.toLocaleString('ar-SA');
+            const birth = new Date(y, m, d);
+            const now = new Date();
+            const diff = now - birth;
             
-            if (progress < 1) {
-                window.requestAnimationFrame(step);
-            } else {
-                obj.textContent = endValue.toLocaleString('ar-SA');
-            }
+            const seconds = Math.floor(diff / 1000);
+            const minutes = Math.floor(seconds / 60);
+            const hours = Math.floor(minutes / 60);
+            const days = Math.floor(hours / 24);
+            const years = Math.floor(days / 365.25);
+            
+            document.getElementById('result').innerHTML = `
+                <div class="box"><b>${years}</b><span>سنة</span></div>
+                <div class="box"><b>${days.toLocaleString()}</b><span>يوم</span></div>
+                <div class="box"><b>${hours.toLocaleString()}</b><span>ساعة</span></div>
+                <div class="box"><b>${seconds.toLocaleString()}</b><span>ثانية</span></div>
+            `;
         }
-        window.requestAnimationFrame(step);
-    }
-</script>
-
+    </script>
 </body>
 </html>
-   
