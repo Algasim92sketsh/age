@@ -4,61 +4,45 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>حاسبة العمر - أبوالقاسم معتصم الخير</title>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@700&display=swap" rel="stylesheet">
     <style>
-        /* خلفية سينمائية متحركة */
         body {
-            margin: 0;
-            padding: 0;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: radial-gradient(circle at 50% 50%, #1a2a6c, #b21f1f, #fdbb2d);
-            background-size: 400% 400%;
-            animation: moveGradient 15s ease infinite;
-            font-family: 'Cairo', sans-serif;
+            margin: 0; padding: 0; min-height: 100vh;
+            display: flex; justify-content: center; align-items: center;
+            /* خلفية فخمة بلون أزرق داكن ليبرز اللون النحاسي */
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            font-family: 'Amiri', serif;
         }
-        @keyframes moveGradient {
-            0% {background-position: 0% 50%}
-            50% {background-position: 100% 50%}
-            100% {background-position: 0% 50%}
-        }
-        /* كارت الـ 3D */
         .glass-card {
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(20px);
-            padding: 40px;
-            border-radius: 40px;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
-            border: 2px solid rgba(255,255,255,0.2);
-            width: 90%;
-            max-width: 450px;
-            text-align: center;
-            color: white;
+            background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(15px);
+            padding: 50px; border-radius: 30px; box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+            border: 1px solid rgba(255,255,255,0.1); width: 90%; max-width: 450px; 
+            text-align: center; color: white;
         }
-        /* تعديل الاسم ليكون 3D فخم */
+        /* تصميم الاسم 3D عريض وفخم */
         .dev-name { 
-            font-size: 1.6em; 
-            margin-bottom: 25px; 
-            font-weight: bold; 
-            color: #fff; 
-            text-shadow: 2px 2px 0px #b21f1f, 4px 4px 0px rgba(0,0,0,0.4);
-            letter-spacing: 1px;
+            font-size: 2.2em; margin-bottom: 30px; font-weight: 700;
+            color: #d4af37; /* لون نحاسي/ذهبي فخم */
+            text-shadow: 2px 2px 0px #8b4513, 4px 4px 0px rgba(0,0,0,0.3), 6px 6px 5px rgba(0,0,0,0.5);
+            letter-spacing: 2px;
+            border-bottom: 2px solid #d4af37;
+            padding-bottom: 15px;
         }
-        input { width: 25%; padding: 15px; border-radius: 20px; border: none; text-align: center; margin: 5px; font-size: 18px; background: rgba(255,255,255,0.9); }
-        button { width: 85%; padding: 15px; border-radius: 20px; border: none; background: #ff416c; color: white; font-size: 20px; margin-top: 20px; cursor: pointer; transition: 0.4s; box-shadow: 0 10px 20px rgba(0,0,0,0.3); }
-        button:hover { transform: translateY(-5px); background: #ff4b2b; }
+        input { width: 80%; padding: 15px; border-radius: 10px; border: 1px solid #d4af37; text-align: center; margin: 10px 0; font-size: 18px; background: rgba(0,0,0,0.3); color: white; }
+        button { width: 85%; padding: 15px; border-radius: 10px; border: none; background: #d4af37; color: #0f2027; font-size: 22px; font-weight: bold; margin-top: 20px; cursor: pointer; transition: 0.4s; }
+        button:hover { transform: scale(1.05); background: #f0c950; }
         .result-container { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 30px; }
-        .data-box { background: rgba(0,0,0,0.3); padding: 15px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.1); }
+        .data-box { background: rgba(212, 175, 55, 0.1); padding: 15px; border-radius: 10px; border: 1px solid #d4af37; }
+        b { font-size: 1.6em; color: #d4af37; display: block; }
     </style>
 </head>
 <body>
     <div class="glass-card">
-        <div class="dev-name">تطوير: أبوالقاسم معتصم الخير</div>
+        <div class="dev-name">أبوالقاسم معتصم الخير</div>
         <h3>حاسبة العمر الدقيقة</h3>
-        <input type="number" id="day" placeholder="يوم">
-        <input type="number" id="month" placeholder="شهر">
-        <input type="number" id="year" placeholder="سنة">
+        <input type="number" id="day" placeholder="اليوم">
+        <input type="number" id="month" placeholder="الشهر">
+        <input type="number" id="year" placeholder="السنة">
         <button onclick="calc()">احسب الآن</button>
         <div class="result-container" id="res"></div>
     </div>
@@ -78,10 +62,10 @@
             const diff = now - birth;
             const sec = Math.floor((diff / 1000) % 60);
             document.getElementById('res').innerHTML = `
-                <div class="data-box"><b>${years}</b><br>سنة</div>
-                <div class="data-box"><b>${months}</b><br>شهر</div>
-                <div class="data-box"><b>${days}</b><br>يوم</div>
-                <div class="data-box"><b>${sec}</b><br>ثانية</div>
+                <div class="data-box"><b>${years}</b>سنة</div>
+                <div class="data-box"><b>${months}</b>شهر</div>
+                <div class="data-box"><b>${days}</b>يوم</div>
+                <div class="data-box"><b>${sec}</b>ثانية</div>
             `;
         }
     </script>
