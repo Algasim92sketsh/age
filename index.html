@@ -3,62 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>عمر أبو القاسم</title>
+    <title>حاسبة العمر - أبو القاسم</title>
     <style>
-        /* خلفية ملونة متحركة بأسلوب 3D عصري */
+        /* تصميم الـ 3D والخلفية المتحركة */
         body {
             margin: 0;
             padding: 0;
-            height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-family: 'Arial', sans-serif;
-            background: linear-gradient(-45deg, #1e3c72, #2a5298, #6dd5fa, #2980b9);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(-45deg, #0f2027, #203a43, #2c5364);
             background-size: 400% 400%;
-            animation: gradientBG 15s ease infinite;
+            animation: gradientBG 10s ease infinite;
         }
         @keyframes gradientBG {
-            0% {background-position: 0% 50%;}
-            50% {background-position: 100% 50%;}
-            100% {background-position: 0% 50%;}
+            0% {background-position: 0% 50%}
+            50% {background-position: 100% 50%}
+            100% {background-position: 0% 50%}
         }
         .card {
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
             padding: 30px;
-            border-radius: 30px;
+            border-radius: 40px;
             width: 90%;
             max-width: 400px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5), inset 0 0 10px rgba(255,255,255,0.1);
             text-align: center;
-            border: 2px solid rgba(255,255,255,0.3);
+            color: white;
+            border: 2px solid rgba(255,255,255,0.2);
         }
-        h1 { color: #1e3c72; margin-bottom: 20px; font-size: 28px; }
+        h2 { margin-bottom: 20px; text-shadow: 0 2px 5px rgba(0,0,0,0.3); }
         .input-group { display: flex; gap: 10px; margin-bottom: 20px; }
-        input { width: 33%; padding: 12px; border: 2px solid #2a5298; border-radius: 15px; text-align: center; font-size: 16px; outline: none; }
-        button { 
-            background: linear-gradient(to right, #1e3c72, #2a5298); 
-            color: white; border: none; padding: 15px; width: 100%; 
-            border-radius: 15px; font-weight: bold; font-size: 18px; 
-            cursor: pointer; transition: 0.3s;
+        input { 
+            width: 33%; padding: 15px; border-radius: 20px; border: none; 
+            text-align: center; font-size: 16px; background: rgba(255,255,255,0.9);
+            box-shadow: inset 0 5px 10px rgba(0,0,0,0.2);
         }
-        button:hover { transform: scale(1.05); }
+        button { 
+            background: #ff7e5f; color: white; border: none; padding: 15px; width: 100%; 
+            border-radius: 20px; font-weight: bold; font-size: 18px; cursor: pointer;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3); transition: 0.3s;
+        }
+        button:hover { transform: scale(1.05); background: #feb47b; }
         .result-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 25px; }
-        .box { background: #f8f9fa; padding: 15px; border-radius: 20px; border: 1px solid #ddd; }
-        .box b { font-size: 1.5em; color: #1e3c72; display: block; }
-        .box span { font-size: 0.9em; color: #555; }
+        .box { 
+            background: rgba(0,0,0,0.2); padding: 15px; border-radius: 20px; 
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .box b { font-size: 1.4em; display: block; color: #fff; }
+        .footer { margin-top: 25px; font-size: 0.9em; color: rgba(255,255,255,0.6); }
     </style>
 </head>
 <body>
     <div class="card">
-        <h1>مرحباً أبو القاسم</h1>
+        <h2>حاسبة العمر الدقيقة</h2>
         <div class="input-group">
             <input type="number" id="day" placeholder="اليوم">
             <input type="number" id="month" placeholder="الشهر">
             <input type="number" id="year" placeholder="السنة">
         </div>
-        <button onclick="calculate()">احسب عمري بدقة</button>
-        <div id="result" class="result-grid"></div>
+        <button onclick="calculate()">احسب عمري</button>
+        <div id="res" class="result-grid"></div>
+        <div class="footer">برمجة وتطوير: <b>أبو القاسم</b></div>
     </div>
     <script>
         function calculate() {
@@ -69,19 +78,20 @@
             
             const birth = new Date(y, m, d);
             const now = new Date();
+            let years = now.getFullYear() - birth.getFullYear();
+            let months = now.getMonth() - birth.getMonth();
+            let days = now.getDate() - birth.getDate();
+            if (days < 0) { months--; days += 30; }
+            if (months < 0) { years--; months += 12; }
+            
             const diff = now - birth;
+            const seconds = Math.floor((diff / 1000) % 60);
             
-            const seconds = Math.floor(diff / 1000);
-            const minutes = Math.floor(seconds / 60);
-            const hours = Math.floor(minutes / 60);
-            const days = Math.floor(hours / 24);
-            const years = Math.floor(days / 365.25);
-            
-            document.getElementById('result').innerHTML = `
-                <div class="box"><b>${years}</b><span>سنة</span></div>
-                <div class="box"><b>${days.toLocaleString()}</b><span>يوم</span></div>
-                <div class="box"><b>${hours.toLocaleString()}</b><span>ساعة</span></div>
-                <div class="box"><b>${seconds.toLocaleString()}</b><span>ثانية</span></div>
+            document.getElementById('res').innerHTML = `
+                <div class="box"><b>${years}</b>سنة</div>
+                <div class="box"><b>${months}</b>شهر</div>
+                <div class="box"><b>${days}</b>يوم</div>
+                <div class="box"><b>${seconds}</b>ثانية</div>
             `;
         }
     </script>
